@@ -1,0 +1,38 @@
+[gd_resource type="BehaviorTree" load_steps=9 format=3 uid="uid://dx8ixru26u0ii"]
+
+[sub_resource type="BlackboardPlan" id="BlackboardPlan_85cfy"]
+var/state/name = &"state"
+var/state/type = 2
+var/state/value = 0
+var/state/hint = 0
+var/state/hint_string = ""
+
+[sub_resource type="BBNode" id="BBNode_ejd6s"]
+saved_value = NodePath("AnimationPlayer")
+resource_name = "AnimationPlayer"
+
+[sub_resource type="BTPlayAnimation" id="BTPlayAnimation_fqodx"]
+animation_player = SubResource("BBNode_ejd6s")
+animation_name = &"idle"
+
+[sub_resource type="BBVariant" id="BBVariant_easgu"]
+type = 2
+saved_value = 1
+resource_name = "1"
+
+[sub_resource type="BTSetVar" id="BTSetVar_qy212"]
+variable = &"state"
+value = SubResource("BBVariant_easgu")
+
+[sub_resource type="BTSequence" id="BTSequence_jpxyu"]
+children = [SubResource("BTPlayAnimation_fqodx"), SubResource("BTSetVar_qy212")]
+
+[sub_resource type="BTRunLimit" id="BTRunLimit_h41tq"]
+children = [SubResource("BTSequence_jpxyu")]
+
+[sub_resource type="BTSelector" id="BTSelector_4ad68"]
+children = [SubResource("BTRunLimit_h41tq")]
+
+[resource]
+blackboard_plan = SubResource("BlackboardPlan_85cfy")
+root_task = SubResource("BTSelector_4ad68")

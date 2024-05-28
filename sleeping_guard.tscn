@@ -1,0 +1,794 @@
+[gd_scene load_steps=45 format=3 uid="uid://bipyax5yaob7o"]
+
+[ext_resource type="Script" path="res://sleeping_guard.gd" id="1_k1r6v"]
+[ext_resource type="Texture2D" uid="uid://dg86i0webgwc2" path="res://assets/tilesheet@2.png" id="1_xi7a3"]
+[ext_resource type="Texture2D" uid="uid://bd22lx24fnd4g" path="res://assets/states.png" id="2_d560i"]
+[ext_resource type="BehaviorTree" uid="uid://dx8ixru26u0ii" path="res://ai/trees/guard_idle.tres" id="2_griay"]
+[ext_resource type="PackedScene" uid="uid://cjdfsqfww3q82" path="res://weapon.tscn" id="3_5dfpw"]
+[ext_resource type="BehaviorTree" uid="uid://l5e8smop707s" path="res://ai/trees/guard_sleep.tres" id="3_8t6m3"]
+[ext_resource type="BehaviorTree" uid="uid://sg01ka5q0ilf" path="res://ai/trees/guard_surprised.tres" id="4_u4450"]
+[ext_resource type="BehaviorTree" uid="uid://drgenttvo7bgn" path="res://ai/trees/guard_chase.tres" id="5_s3xhc"]
+[ext_resource type="BehaviorTree" uid="uid://ik5gfog6rylw" path="res://ai/trees/guard_attack.tres" id="6_s4yjg"]
+[ext_resource type="BehaviorTree" uid="uid://dv81kdgxr71yn" path="res://ai/trees/guard_dying.tres" id="7_vlmbn"]
+[ext_resource type="BehaviorTree" uid="uid://2mf7dqxwh1ar" path="res://ai/trees/guard_dead.tres" id="8_8p2m8"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qyceq"]
+radius = 54.9987
+height = 1032.01
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_3wpe0"]
+radius = 49.0102
+
+[sub_resource type="BlackboardPlan" id="BlackboardPlan_j2gec"]
+
+[sub_resource type="BlackboardPlan" id="BlackboardPlan_1gi2v"]
+
+[sub_resource type="BlackboardPlan" id="BlackboardPlan_6fe25"]
+
+[sub_resource type="BlackboardPlan" id="BlackboardPlan_hlwqa"]
+
+[sub_resource type="BlackboardPlan" id="BlackboardPlan_k5p3x"]
+
+[sub_resource type="BlackboardPlan" id="BlackboardPlan_n1gif"]
+
+[sub_resource type="BlackboardPlan" id="BlackboardPlan_pxm2t"]
+
+[sub_resource type="BlackboardPlan" id="BlackboardPlan_fsc2v"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_otr0v"]
+radius = 40.0
+
+[sub_resource type="Animation" id="Animation_h0h0m"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("bodyGroup/Right:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(48, -58)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("bodyGroup/Left:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-45, -58)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("bodyGroup/Right:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.37001]
+}
+tracks/3/type = "bezier"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("bodyGroup/Left:position:x")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(-58.7356, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/4/type = "bezier"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("bodyGroup/Left:position:y")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(-0.198322, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/5/type = "bezier"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("bodyGroup/Right:position:x")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(55.1983, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/6/type = "bezier"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("bodyGroup/Right:position:y")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(-5.19832, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/7/type = "bezier"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("bodyGroup:modulate:r")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/8/type = "bezier"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("bodyGroup:modulate:g")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/9/type = "bezier"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("bodyGroup:modulate:b")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/10/type = "bezier"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("bodyGroup:modulate:a")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/11/type = "bezier"
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/path = NodePath("bodyGroup/Right/Weapon:rotation")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/12/type = "bezier"
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/path = NodePath("bodyGroup/Right/Weapon:position:x")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(-1.83061, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/13/type = "bezier"
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/path = NodePath("bodyGroup/Right/Weapon:position:y")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(-37.9032, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="Animation" id="Animation_75lrx"]
+resource_name = "attack"
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("bodyGroup/Right:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0, 0, 0),
+"points": PackedFloat32Array(30, -0.25, 0, 0.25, 0, 58, -0.25, 0, 0.25, 0, 30, -0.25, 0, 0.25, 0, -2, -0.25, 0, 0.25, 0, 30, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.2, 0.5, 0.7, 1)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("bodyGroup/Right:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0, 0, 0),
+"points": PackedFloat32Array(-58, -0.25, 0, 0.25, 0, -21, -0.25, 0, 0.25, 0, -58, -0.25, 0, 0.25, 0, -73, -0.25, 0, 0.25, 0, -58, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.2, 0.5, 0.7, 1)
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("bodyGroup/Left:position:x")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0, 0, 0),
+"points": PackedFloat32Array(38, -0.25, 0, 0.25, 0, 80, -0.25, 0, 0.25, 0, 38, -0.25, 0, 0.25, 0, -2, -0.25, 0, 0.25, 0, 38, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.2, 0.5, 0.7, 1)
+}
+tracks/3/type = "bezier"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("bodyGroup/Left:position:y")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0, 0, 0),
+"points": PackedFloat32Array(-81, -0.25, 0, 0.25, 0, -29, -0.25, 0, 0.25, 0, -81, -0.25, 0, 0.25, 0, -95, -0.25, 0, 0.25, 0, -81, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.2, 0.5, 0.7, 1)
+}
+tracks/4/type = "bezier"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("bodyGroup/Right:rotation")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0, 0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 1.25664, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 0.00523599, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.2, 0.5, 0.7, 1)
+}
+tracks/5/type = "bezier"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("bodyGroup/Right/Weapon:rotation")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0, 0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 0.673697, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, -0.383972, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.2, 0.5, 0.7, 1)
+}
+tracks/6/type = "bezier"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("bodyGroup/Right/Weapon:position:x")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0, 0, 0),
+"points": PackedFloat32Array(-1.83061, -0.25, 0, 0.25, 0, 23.3251, -0.25, 0, 0.25, 0, -1.83061, -0.25, 0, 0.25, 0, -12.6569, -0.25, 0, 0.25, 0, -1.83061, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.2, 0.5, 0.7, 1)
+}
+tracks/7/type = "bezier"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("bodyGroup/Right/Weapon:position:y")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0, 0, 0),
+"points": PackedFloat32Array(-37.9032, -0.25, 0, 0.25, 0, -28.3538, -0.25, 0, 0.25, 0, -37.9032, -0.25, 0, 0.25, 0, -32.6313, -0.25, 0, 0.25, 0, -37.9032, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.2, 0.5, 0.7, 1)
+}
+
+[sub_resource type="Animation" id="Animation_lm267"]
+resource_name = "dying"
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("bodyGroup:modulate:r")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("bodyGroup:modulate:g")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("bodyGroup:modulate:b")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+tracks/3/type = "bezier"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("bodyGroup:modulate:a")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+tracks/4/type = "bezier"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("bodyGroup/Left:position:x")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(-58.7356, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.9)
+}
+tracks/5/type = "bezier"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("bodyGroup/Left:position:y")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(-0.198322, -0.25, 0, 0.25, 0, -4, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.9)
+}
+tracks/6/type = "bezier"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("bodyGroup/Right:position:x")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(55.1983, -0.25, 0, 0.25, 0, -1.99999, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.9)
+}
+tracks/7/type = "bezier"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("bodyGroup/Right:position:y")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(-5.19832, -0.25, 0, 0.25, 0, 3, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.9)
+}
+
+[sub_resource type="Animation" id="Animation_5kdqj"]
+resource_name = "idle"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("bodyGroup/Right:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(48, -58), Vector2(41, -59), Vector2(48, -58)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("bodyGroup/Left:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(-45, -58), Vector2(-46, -56), Vector2(-45, -58)]
+}
+
+[sub_resource type="Animation" id="Animation_818pk"]
+resource_name = "move"
+
+[sub_resource type="Animation" id="Animation_awj4d"]
+resource_name = "sleeping"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("bodyGroup/Right:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(58, -8), Vector2(55, -5), Vector2(58, -8)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("bodyGroup/Left:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(-55, -3), Vector2(-59, 0), Vector2(-55, -3)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("bodyGroup/Right:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(1, 1.1, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 0.0, 0.0]
+}
+
+[sub_resource type="Animation" id="Animation_1tkvj"]
+resource_name = "surprised"
+step = 0.5
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("bodyGroup/Left:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(-58.7356, -0.25, 0, 0.25, 0, -44, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("bodyGroup/Left:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(-0.198322, -0.25, 0, 0.25, 0, 43, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("bodyGroup/Right:position:x")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(55.1983, -0.25, 0, 0.25, 0, 24, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+tracks/3/type = "bezier"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("bodyGroup/Right:position:y")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(-5.19832, -0.25, 0, 0.25, 0, -67, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+
+[sub_resource type="Animation" id="Animation_phkas"]
+resource_name = "start_chase"
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("bodyGroup/Left:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(-58.7356, -0.25, 0, 0.25, 0, -36, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("bodyGroup/Left:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(-0.198322, -0.25, 0, 0.25, 0, -56, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("bodyGroup/Right:position:x")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(55.1983, -0.25, 0, 0.25, 0, 32, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+tracks/3/type = "bezier"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("bodyGroup/Right:position:y")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(-5.19832, -0.25, 0, 0.25, 0, -59, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+
+[sub_resource type="Animation" id="Animation_nb5sd"]
+resource_name = "chase"
+loop_mode = 1
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("bodyGroup/Left:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(-36, -0.25, 0, 0.25, 0, -37, -0.25, 0, 0.25, 0, -36, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.5, 1)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("bodyGroup/Left:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(-56, -0.25, 0, 0.25, 0, -46, -0.25, 0, 0.25, 0, -56, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.5, 1)
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("bodyGroup/Right:position:x")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(32, -0.25, 0, 0.25, 0, 32, -0.25, 0, 0.25, 0, 32, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.5, 1)
+}
+tracks/3/type = "bezier"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("bodyGroup/Right:position:y")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(-59, -0.25, 0, 0.25, 0, -74, -0.25, 0, 0.25, 0, -59, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.5, 1)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_udfys"]
+_data = {
+"RESET": SubResource("Animation_h0h0m"),
+"attack": SubResource("Animation_75lrx"),
+"chase": SubResource("Animation_nb5sd"),
+"dying": SubResource("Animation_lm267"),
+"idle": SubResource("Animation_5kdqj"),
+"move": SubResource("Animation_818pk"),
+"sleeping": SubResource("Animation_awj4d"),
+"start_chase": SubResource("Animation_phkas"),
+"surprised": SubResource("Animation_1tkvj")
+}
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_16pmt"]
+atlas = ExtResource("2_d560i")
+region = Rect2(0, 0, 76, 49)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hm3j0"]
+atlas = ExtResource("2_d560i")
+region = Rect2(0, 49, 76, 49)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cn3lm"]
+atlas = ExtResource("2_d560i")
+region = Rect2(162, 50, 81, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3uvxx"]
+atlas = ExtResource("2_d560i")
+region = Rect2(0, 98, 81, 49)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xwdlm"]
+atlas = ExtResource("2_d560i")
+region = Rect2(0, 147, 81, 49)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nxpk4"]
+atlas = ExtResource("2_d560i")
+region = Rect2(80, 50, 80, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5jxuu"]
+atlas = ExtResource("2_d560i")
+region = Rect2(162, 100, 81, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_73nwk"]
+atlas = ExtResource("2_d560i")
+region = Rect2(162, 150, 81, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p1n1e"]
+atlas = ExtResource("2_d560i")
+region = Rect2(245, 51, 141, 51)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d8126"]
+atlas = ExtResource("2_d560i")
+region = Rect2(80, 100, 80, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_udnid"]
+atlas = ExtResource("2_d560i")
+region = Rect2(80, 150, 80, 50)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_3x78a"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_16pmt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hm3j0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cn3lm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3uvxx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xwdlm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nxpk4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5jxuu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_73nwk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p1n1e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d8126")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_udnid")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="SleepingGuard" type="CharacterBody2D" node_paths=PackedStringArray("hsm", "idle_state", "sleep_state", "surprised_state", "chase_state", "attack_state", "dying_state", "dead_state")]
+script = ExtResource("1_k1r6v")
+hsm = NodePath("LimboHSM")
+idle_state = NodePath("LimboHSM/idle")
+sleep_state = NodePath("LimboHSM/asleep")
+surprised_state = NodePath("LimboHSM/surprised")
+chase_state = NodePath("LimboHSM/chase")
+attack_state = NodePath("LimboHSM/attack")
+dying_state = NodePath("LimboHSM/dying")
+dead_state = NodePath("LimboHSM/dead")
+
+[node name="Vision" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Vision"]
+position = Vector2(466, -6)
+rotation = -1.57035
+shape = SubResource("CapsuleShape2D_qyceq")
+debug_color = Color(1, 1, 0.054902, 0.419608)
+
+[node name="bodyGroup" type="Node2D" parent="."]
+rotation = 1.5708
+
+[node name="Body" type="Sprite2D" parent="bodyGroup"]
+texture = ExtResource("1_xi7a3")
+region_enabled = true
+region_rect = Rect2(279, 1047, 83, 83)
+
+[node name="Left" type="Sprite2D" parent="bodyGroup"]
+position = Vector2(-58.7356, -0.198322)
+texture = ExtResource("1_xi7a3")
+region_enabled = true
+region_rect = Rect2(431, 1070, 34, 37)
+
+[node name="Right" type="Sprite2D" parent="bodyGroup"]
+position = Vector2(55.1983, -5.19832)
+rotation = 0.37001
+texture = ExtResource("1_xi7a3")
+region_enabled = true
+region_rect = Rect2(431, 1069, 34, 37)
+
+[node name="Weapon" parent="bodyGroup/Right" instance=ExtResource("3_5dfpw")]
+position = Vector2(-1.83061, -37.9032)
+
+[node name="hurtbox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hurtbox"]
+shape = SubResource("CircleShape2D_3wpe0")
+debug_color = Color(0.781805, 0.236818, 0.897255, 0.42)
+
+[node name="LimboHSM" type="LimboHSM" parent="."]
+blackboard_plan = SubResource("BlackboardPlan_j2gec")
+
+[node name="idle" type="BTState" parent="LimboHSM"]
+behavior_tree = ExtResource("2_griay")
+blackboard_plan = SubResource("BlackboardPlan_1gi2v")
+
+[node name="asleep" type="BTState" parent="LimboHSM"]
+behavior_tree = ExtResource("3_8t6m3")
+blackboard_plan = SubResource("BlackboardPlan_6fe25")
+
+[node name="surprised" type="BTState" parent="LimboHSM"]
+behavior_tree = ExtResource("4_u4450")
+blackboard_plan = SubResource("BlackboardPlan_hlwqa")
+
+[node name="chase" type="BTState" parent="LimboHSM"]
+behavior_tree = ExtResource("5_s3xhc")
+blackboard_plan = SubResource("BlackboardPlan_k5p3x")
+
+[node name="attack" type="BTState" parent="LimboHSM"]
+behavior_tree = ExtResource("6_s4yjg")
+blackboard_plan = SubResource("BlackboardPlan_n1gif")
+
+[node name="dying" type="BTState" parent="LimboHSM"]
+behavior_tree = ExtResource("7_vlmbn")
+blackboard_plan = SubResource("BlackboardPlan_pxm2t")
+
+[node name="dead" type="BTState" parent="LimboHSM"]
+behavior_tree = ExtResource("8_8p2m8")
+blackboard_plan = SubResource("BlackboardPlan_fsc2v")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_otr0v")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_udfys")
+}
+next/start_chase = &"chase"
+blend_times = [&"start_chase", &"chase", 0.001]
+
+[node name="StateName" type="AnimatedSprite2D" parent="."]
+position = Vector2(-2, 0)
+sprite_frames = SubResource("SpriteFrames_3x78a")
+
+[connection signal="body_entered" from="Vision" to="." method="_on_vision_body_entered"]
+[connection signal="body_exited" from="Vision" to="." method="_on_vision_body_exited"]
+[connection signal="body_entered" from="hurtbox" to="." method="_on_hurtbox_body_entered"]
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

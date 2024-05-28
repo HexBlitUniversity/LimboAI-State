@@ -1,0 +1,135 @@
+[gd_resource type="BehaviorTree" load_steps=32 format=3 uid="uid://ik5gfog6rylw"]
+
+[ext_resource type="Script" path="res://ai/tasks/getTarget.gd" id="1_rd8uc"]
+[ext_resource type="Script" path="res://ai/tasks/in_range.gd" id="2_affgm"]
+[ext_resource type="Script" path="res://ai/tasks/print.gd" id="3_u0a5v"]
+[ext_resource type="Script" path="res://ai/tasks/pursue.gd" id="4_of2qw"]
+
+[sub_resource type="BlackboardPlan" id="BlackboardPlan_sqdgm"]
+var/state/name = &"state"
+var/state/type = 2
+var/state/value = 0
+var/state/hint = 0
+var/state/hint_string = ""
+var/target/name = &"target"
+var/target/type = 24
+var/target/hint = 0
+var/target/hint_string = ""
+
+[sub_resource type="BTAction" id="BTAction_85b7t"]
+script = ExtResource("3_u0a5v")
+message = "Attack Run Limit"
+
+[sub_resource type="BTAction" id="BTAction_8smhq"]
+script = ExtResource("1_rd8uc")
+group = &"isPlayer"
+output_var = &"target"
+
+[sub_resource type="BBVariant" id="BBVariant_xef7a"]
+type = 2
+saved_value = 3
+resource_name = "3"
+
+[sub_resource type="BTSetVar" id="BTSetVar_qw2av"]
+variable = &"state"
+value = SubResource("BBVariant_xef7a")
+
+[sub_resource type="BTSequence" id="BTSequence_jn7x5"]
+children = [SubResource("BTAction_85b7t"), SubResource("BTAction_8smhq"), SubResource("BTSetVar_qw2av")]
+
+[sub_resource type="BTRunLimit" id="BTRunLimit_h8sr7"]
+children = [SubResource("BTSequence_jn7x5")]
+
+[sub_resource type="BTAction" id="BTAction_c7obb"]
+script = ExtResource("3_u0a5v")
+message = "In Range To Attack??"
+
+[sub_resource type="BTCondition" id="BTCondition_lmpeo"]
+script = ExtResource("2_affgm")
+distance_min = 0.0
+distance_max = 300.0
+target_var = &"target"
+
+[sub_resource type="BTAction" id="BTAction_4g6cq"]
+script = ExtResource("4_of2qw")
+target_var = &"target"
+speed_var = &"speed"
+approach_distance = 100.0
+
+[sub_resource type="BTAction" id="BTAction_y3tge"]
+script = ExtResource("3_u0a5v")
+message = "In Range To Attack"
+
+[sub_resource type="BBNode" id="BBNode_e8aqg"]
+saved_value = NodePath("AnimationPlayer")
+resource_name = "AnimationPlayer"
+
+[sub_resource type="BTPlayAnimation" id="BTPlayAnimation_p1rgv"]
+await_completion = 1.0
+animation_player = SubResource("BBNode_e8aqg")
+animation_name = &"attack"
+
+[sub_resource type="BTSequence" id="BTSequence_bxw4r"]
+custom_name = "In Range To Attack"
+children = [SubResource("BTAction_c7obb"), SubResource("BTCondition_lmpeo"), SubResource("BTAction_4g6cq"), SubResource("BTAction_y3tge"), SubResource("BTPlayAnimation_p1rgv")]
+
+[sub_resource type="BTCooldown" id="BTCooldown_5nueu"]
+duration = 1.0
+children = [SubResource("BTSequence_bxw4r")]
+
+[sub_resource type="BTAction" id="BTAction_cm0j3"]
+script = ExtResource("3_u0a5v")
+message = "In Range To Attack??"
+
+[sub_resource type="BTCondition" id="BTCondition_yntpn"]
+script = ExtResource("2_affgm")
+distance_min = 0.0
+distance_max = 150.0
+target_var = &"target"
+
+[sub_resource type="BTAction" id="BTAction_4scvl"]
+script = ExtResource("3_u0a5v")
+message = "In Range To Attack"
+
+[sub_resource type="BTAction" id="BTAction_0pl66"]
+script = ExtResource("4_of2qw")
+target_var = &"target"
+speed_var = &"speed"
+approach_distance = 300.0
+
+[sub_resource type="BTSequence" id="BTSequence_ke1yo"]
+custom_name = "Back of prepare"
+children = [SubResource("BTAction_cm0j3"), SubResource("BTCondition_yntpn"), SubResource("BTAction_4scvl"), SubResource("BTAction_0pl66")]
+
+[sub_resource type="BTAction" id="BTAction_x2dlk"]
+script = ExtResource("3_u0a5v")
+message = "Too Far Away To Attack??"
+
+[sub_resource type="BTCondition" id="BTCondition_hfowt"]
+script = ExtResource("2_affgm")
+distance_min = 350.0
+distance_max = 1000.0
+target_var = &"target"
+
+[sub_resource type="BTAction" id="BTAction_ml0qb"]
+script = ExtResource("3_u0a5v")
+message = "Too Far Away To Attack"
+
+[sub_resource type="BBNode" id="BBNode_ro5hu"]
+saved_value = NodePath(".")
+resource_name = "."
+
+[sub_resource type="BTCallMethod" id="BTCallMethod_v0ef4"]
+node = SubResource("BBNode_ro5hu")
+method = &"begin_chase"
+
+[sub_resource type="BTSequence" id="BTSequence_wap3b"]
+custom_name = "Too Far Away To Attack"
+children = [SubResource("BTAction_x2dlk"), SubResource("BTCondition_hfowt"), SubResource("BTAction_ml0qb"), SubResource("BTCallMethod_v0ef4")]
+
+[sub_resource type="BTSelector" id="BTSelector_yna7a"]
+children = [SubResource("BTRunLimit_h8sr7"), SubResource("BTCooldown_5nueu"), SubResource("BTSequence_ke1yo"), SubResource("BTSequence_wap3b")]
+
+[resource]
+blackboard_plan = SubResource("BlackboardPlan_sqdgm")
+root_task = SubResource("BTSelector_yna7a")

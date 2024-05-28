@@ -1,0 +1,56 @@
+[gd_resource type="BehaviorTree" load_steps=12 format=3 uid="uid://l5e8smop707s"]
+
+[sub_resource type="BlackboardPlan" id="BlackboardPlan_3imo0"]
+var/state/name = &"state"
+var/state/type = 2
+var/state/value = 0
+var/state/hint = 0
+var/state/hint_string = ""
+var/axe_is_visible/name = &"axe_is_visible"
+var/axe_is_visible/type = 1
+var/axe_is_visible/value = false
+var/axe_is_visible/hint = 0
+var/axe_is_visible/hint_string = ""
+
+[sub_resource type="BBNode" id="BBNode_0873b"]
+saved_value = NodePath("AnimationPlayer")
+resource_name = "AnimationPlayer"
+
+[sub_resource type="BTPlayAnimation" id="BTPlayAnimation_lsvvk"]
+animation_player = SubResource("BBNode_0873b")
+animation_name = &"sleeping"
+
+[sub_resource type="BBVariant" id="BBVariant_gvcka"]
+type = 2
+saved_value = 7
+resource_name = "7"
+
+[sub_resource type="BTSetVar" id="BTSetVar_o6b4c"]
+variable = &"state"
+value = SubResource("BBVariant_gvcka")
+
+[sub_resource type="BTSequence" id="BTSequence_kaj1x"]
+children = [SubResource("BTPlayAnimation_lsvvk"), SubResource("BTSetVar_o6b4c")]
+
+[sub_resource type="BTRunLimit" id="BTRunLimit_fdi1o"]
+children = [SubResource("BTSequence_kaj1x")]
+
+[sub_resource type="BBVariant" id="BBVariant_qma48"]
+type = 1
+saved_value = false
+resource_name = "false"
+
+[sub_resource type="BTCheckVar" id="BTCheckVar_nnkho"]
+variable = &"axe_is_visible"
+value = SubResource("BBVariant_qma48")
+
+[sub_resource type="BTSequence" id="BTSequence_hdmiv"]
+custom_name = "wake_up?"
+children = [SubResource("BTCheckVar_nnkho")]
+
+[sub_resource type="BTSelector" id="BTSelector_rcsgp"]
+children = [SubResource("BTRunLimit_fdi1o"), SubResource("BTSequence_hdmiv")]
+
+[resource]
+blackboard_plan = SubResource("BlackboardPlan_3imo0")
+root_task = SubResource("BTSelector_rcsgp")

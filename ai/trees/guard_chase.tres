@@ -1,0 +1,133 @@
+[gd_resource type="BehaviorTree" load_steps=31 format=3 uid="uid://drgenttvo7bgn"]
+
+[ext_resource type="Script" path="res://ai/tasks/in_range.gd" id="1_buxh0"]
+[ext_resource type="Script" path="res://ai/tasks/getTarget.gd" id="1_c2ry3"]
+[ext_resource type="Script" path="res://ai/tasks/print.gd" id="2_vhdvw"]
+[ext_resource type="Script" path="res://ai/tasks/pursue.gd" id="3_h1n7a"]
+
+[sub_resource type="BlackboardPlan" id="BlackboardPlan_oo2ad"]
+var/state/name = &"state"
+var/state/type = 2
+var/state/value = 0
+var/state/hint = 0
+var/state/hint_string = ""
+var/target/name = &"target"
+var/target/type = 24
+var/target/hint = 0
+var/target/hint_string = ""
+var/speed/name = &"speed"
+var/speed/type = 3
+var/speed/value = 0.0
+var/speed/hint = 0
+var/speed/hint_string = ""
+
+[sub_resource type="BTAction" id="BTAction_eb24s"]
+script = ExtResource("2_vhdvw")
+message = "Start Chase"
+
+[sub_resource type="BBNode" id="BBNode_lltee"]
+saved_value = NodePath("AnimationPlayer")
+resource_name = "AnimationPlayer"
+
+[sub_resource type="BTPlayAnimation" id="BTPlayAnimation_uhc4i"]
+animation_player = SubResource("BBNode_lltee")
+animation_name = &"start_chase"
+
+[sub_resource type="BBVariant" id="BBVariant_uyhgq"]
+type = 2
+saved_value = 200
+resource_name = "200"
+
+[sub_resource type="BTSetVar" id="BTSetVar_hkbwc"]
+variable = &"speed"
+value = SubResource("BBVariant_uyhgq")
+
+[sub_resource type="BBVariant" id="BBVariant_60yhu"]
+type = 2
+saved_value = 6
+resource_name = "6"
+
+[sub_resource type="BTSetVar" id="BTSetVar_31e7n"]
+variable = &"state"
+value = SubResource("BBVariant_60yhu")
+
+[sub_resource type="BTAction" id="BTAction_ldjyy"]
+script = ExtResource("1_c2ry3")
+group = &"isPlayer"
+output_var = &"target"
+
+[sub_resource type="BTSequence" id="BTSequence_r27u1"]
+children = [SubResource("BTAction_eb24s"), SubResource("BTPlayAnimation_uhc4i"), SubResource("BTSetVar_hkbwc"), SubResource("BTSetVar_31e7n"), SubResource("BTAction_ldjyy")]
+
+[sub_resource type="BTRunLimit" id="BTRunLimit_0uxg5"]
+children = [SubResource("BTSequence_r27u1")]
+
+[sub_resource type="BTAction" id="BTAction_pogvg"]
+script = ExtResource("2_vhdvw")
+message = "In Range to attack?"
+
+[sub_resource type="BTCondition" id="BTCondition_qioct"]
+script = ExtResource("1_buxh0")
+distance_min = 0.0
+distance_max = 150.0
+target_var = &"target"
+
+[sub_resource type="BTAction" id="BTAction_ct6ld"]
+script = ExtResource("2_vhdvw")
+message = "In Range to attack? (YES!)"
+
+[sub_resource type="BBNode" id="BBNode_77gu7"]
+saved_value = NodePath("AnimationPlayer")
+resource_name = "AnimationPlayer"
+
+[sub_resource type="BTStopAnimation" id="BTStopAnimation_755qg"]
+animation_player = SubResource("BBNode_77gu7")
+animation_name = &"chase"
+
+[sub_resource type="BBNode" id="BBNode_70vxb"]
+saved_value = NodePath(".")
+resource_name = "."
+
+[sub_resource type="BTCallMethod" id="BTCallMethod_nqhyq"]
+node = SubResource("BBNode_70vxb")
+method = &"begin_attack"
+
+[sub_resource type="BTSequence" id="BTSequence_65tmc"]
+custom_name = "In Range To Attack?"
+children = [SubResource("BTAction_pogvg"), SubResource("BTCondition_qioct"), SubResource("BTAction_ct6ld"), SubResource("BTStopAnimation_755qg"), SubResource("BTCallMethod_nqhyq")]
+
+[sub_resource type="BTAction" id="BTAction_jno5n"]
+script = ExtResource("1_c2ry3")
+group = &"isPlayer"
+output_var = &"target"
+
+[sub_resource type="BTAction" id="BTAction_n1ihk"]
+script = ExtResource("2_vhdvw")
+message = "Chase Target"
+
+[sub_resource type="BTCondition" id="BTCondition_j4bbk"]
+script = ExtResource("1_buxh0")
+distance_min = 0.0
+distance_max = 1000.0
+target_var = &"target"
+
+[sub_resource type="BTAction" id="BTAction_jldtp"]
+script = ExtResource("2_vhdvw")
+message = "We are in chase range"
+
+[sub_resource type="BTAction" id="BTAction_bcoa2"]
+script = ExtResource("3_h1n7a")
+target_var = &"target"
+speed_var = &"speed"
+approach_distance = 100.0
+
+[sub_resource type="BTSequence" id="BTSequence_0wqg0"]
+custom_name = "Chase Target"
+children = [SubResource("BTAction_jno5n"), SubResource("BTAction_n1ihk"), SubResource("BTCondition_j4bbk"), SubResource("BTAction_jldtp"), SubResource("BTAction_bcoa2")]
+
+[sub_resource type="BTSelector" id="BTSelector_clrs4"]
+children = [SubResource("BTRunLimit_0uxg5"), SubResource("BTSequence_65tmc"), SubResource("BTSequence_0wqg0")]
+
+[resource]
+blackboard_plan = SubResource("BlackboardPlan_oo2ad")
+root_task = SubResource("BTSelector_clrs4")

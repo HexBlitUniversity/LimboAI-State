@@ -1,0 +1,38 @@
+[gd_resource type="BehaviorTree" load_steps=9 format=3 uid="uid://sg01ka5q0ilf"]
+
+[sub_resource type="BlackboardPlan" id="BlackboardPlan_83q1n"]
+var/state/name = &"state"
+var/state/type = 2
+var/state/value = 0
+var/state/hint = 0
+var/state/hint_string = ""
+
+[sub_resource type="BBNode" id="BBNode_5f21n"]
+saved_value = NodePath("AnimationPlayer")
+resource_name = "AnimationPlayer"
+
+[sub_resource type="BTPlayAnimation" id="BTPlayAnimation_dhlom"]
+animation_player = SubResource("BBNode_5f21n")
+animation_name = &"surprised"
+
+[sub_resource type="BBVariant" id="BBVariant_rpb2c"]
+type = 2
+saved_value = 8
+resource_name = "8"
+
+[sub_resource type="BTSetVar" id="BTSetVar_lc2i4"]
+variable = &"state"
+value = SubResource("BBVariant_rpb2c")
+
+[sub_resource type="BTSequence" id="BTSequence_wpsrx"]
+children = [SubResource("BTPlayAnimation_dhlom"), SubResource("BTSetVar_lc2i4")]
+
+[sub_resource type="BTRunLimit" id="BTRunLimit_lo7v5"]
+children = [SubResource("BTSequence_wpsrx")]
+
+[sub_resource type="BTSelector" id="BTSelector_omhte"]
+children = [SubResource("BTRunLimit_lo7v5")]
+
+[resource]
+blackboard_plan = SubResource("BlackboardPlan_83q1n")
+root_task = SubResource("BTSelector_omhte")

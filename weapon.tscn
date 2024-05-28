@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://cjdfsqfww3q82"]
+
+[ext_resource type="Texture2D" uid="uid://dg86i0webgwc2" path="res://assets/tilesheet@2.png" id="1_823aj"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hfsjx"]
+size = Vector2(12, 50)
+
+[node name="StaticBody2D" type="StaticBody2D"]
+
+[node name="Weapon" type="Sprite2D" parent="."]
+texture = ExtResource("1_823aj")
+region_enabled = true
+region_rect = Rect2(29, 1287, 67, 111)
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
+position = Vector2(-24, -25)
+shape = SubResource("RectangleShape2D_hfsjx")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(26, -26)
+shape = SubResource("RectangleShape2D_hfsjx")

@@ -1,0 +1,64 @@
+[gd_scene load_steps=8 format=3 uid="uid://buhlg0u7vd25n"]
+
+[ext_resource type="Texture2D" uid="uid://dg86i0webgwc2" path="res://assets/tilesheet@2.png" id="1_bk76r"]
+[ext_resource type="Script" path="res://axe.gd" id="1_dqa20"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_amyx5"]
+size = Vector2(49, 104)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yp8al"]
+size = Vector2(14.375, 48)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wi1ri"]
+size = Vector2(16, 99)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g2svb"]
+size = Vector2(11, 38)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sn6a2"]
+size = Vector2(12, 42)
+
+[node name="Axe" type="StaticBody2D" groups=["axe"]]
+texture_filter = 1
+texture_repeat = 1
+script = ExtResource("1_dqa20")
+
+[node name="AxeSprite" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("1_bk76r")
+offset = Vector2(0, -32)
+region_enabled = true
+region_rect = Rect2(280, 1292, 78, 104)
+
+[node name="PickUp" type="Area2D" parent="."]
+
+[node name="pickUpCollision" type="CollisionShape2D" parent="PickUp"]
+position = Vector2(-1.5, -35)
+shape = SubResource("RectangleShape2D_amyx5")
+debug_color = Color(0.752305, 0.24154, 0.951497, 0.42)
+
+[node name="Hitbox" type="Area2D" parent="."]
+
+[node name="AxeBlade" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2(29, -59)
+shape = SubResource("RectangleShape2D_yp8al")
+debug_color = Color(0.954458, 3.60981e-06, 1.34766e-06, 0.419608)
+
+[node name="AxeBlade2" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2(-31.8125, -60)
+shape = SubResource("RectangleShape2D_yp8al")
+debug_color = Color(0.954458, 3.60981e-06, 1.34766e-06, 0.419608)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -33.5)
+shape = SubResource("RectangleShape2D_wi1ri")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
+position = Vector2(27.5, -59)
+shape = SubResource("RectangleShape2D_g2svb")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="."]
+position = Vector2(-31, -59)
+shape = SubResource("RectangleShape2D_sn6a2")
+
+[connection signal="body_entered" from="PickUp" to="." method="_on_pick_up_body_entered"]

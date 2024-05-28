@@ -1,0 +1,30 @@
+[gd_resource type="BehaviorTree" load_steps=7 format=3 uid="uid://2mf7dqxwh1ar"]
+
+[sub_resource type="BlackboardPlan" id="BlackboardPlan_o2vjd"]
+var/state/name = &"state"
+var/state/type = 2
+var/state/value = 0
+var/state/hint = 0
+var/state/hint_string = ""
+
+[sub_resource type="BBVariant" id="BBVariant_qf7ni"]
+type = 2
+saved_value = 10
+resource_name = "10"
+
+[sub_resource type="BTSetVar" id="BTSetVar_4sdoo"]
+variable = &"state"
+value = SubResource("BBVariant_qf7ni")
+
+[sub_resource type="BTSequence" id="BTSequence_oapgi"]
+children = [SubResource("BTSetVar_4sdoo")]
+
+[sub_resource type="BTRunLimit" id="BTRunLimit_ycoje"]
+children = [SubResource("BTSequence_oapgi")]
+
+[sub_resource type="BTSelector" id="BTSelector_3nq85"]
+children = [SubResource("BTRunLimit_ycoje")]
+
+[resource]
+blackboard_plan = SubResource("BlackboardPlan_o2vjd")
+root_task = SubResource("BTSelector_3nq85")

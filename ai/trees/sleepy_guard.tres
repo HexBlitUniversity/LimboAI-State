@@ -1,0 +1,55 @@
+[gd_resource type="BehaviorTree" load_steps=15 format=3 uid="uid://b5w7c03asxywg"]
+
+[ext_resource type="Script" path="res://ai/tasks/getState.gd" id="1_j53ru"]
+
+[sub_resource type="BlackboardPlan" id="BlackboardPlan_p0xvj"]
+
+[sub_resource type="BTAction" id="BTAction_x28g3"]
+custom_name = "? GetState == Asleep"
+script = ExtResource("1_j53ru")
+state = 6
+
+[sub_resource type="BTSequence" id="BTSequence_sqotp"]
+custom_name = "Are We Sleeping?"
+children = [SubResource("BTAction_x28g3")]
+
+[sub_resource type="BTAction" id="BTAction_pwl5e"]
+custom_name = "? GetState == Surprised"
+script = ExtResource("1_j53ru")
+state = 7
+
+[sub_resource type="BTComment" id="BTComment_l3r4l"]
+custom_name = "Runs when the player picks up the axe"
+
+[sub_resource type="BTWait" id="BTWait_wus84"]
+
+[sub_resource type="BBNode" id="BBNode_evlde"]
+saved_value = NodePath(".")
+resource_name = "."
+
+[sub_resource type="BTCallMethod" id="BTCallMethod_hxxa7"]
+node = SubResource("BBNode_evlde")
+method = &"begin_attack"
+
+[sub_resource type="BTComment" id="BTComment_8oxyk"]
+custom_name = "Call Begin Attack on Sleepy Guard"
+
+[sub_resource type="BTSequence" id="BTSequence_8l34j"]
+custom_name = "Are We Surprised?"
+children = [SubResource("BTAction_pwl5e"), SubResource("BTComment_l3r4l"), SubResource("BTWait_wus84"), SubResource("BTCallMethod_hxxa7"), SubResource("BTComment_8oxyk")]
+
+[sub_resource type="BTAction" id="BTAction_s247h"]
+custom_name = "? GetState == Attack"
+script = ExtResource("1_j53ru")
+state = 2
+
+[sub_resource type="BTSequence" id="BTSequence_46c6j"]
+custom_name = "Are We Attacking?"
+children = [SubResource("BTAction_s247h")]
+
+[sub_resource type="BTSelector" id="BTSelector_qp3gm"]
+children = [SubResource("BTSequence_sqotp"), SubResource("BTSequence_8l34j"), SubResource("BTSequence_46c6j")]
+
+[resource]
+blackboard_plan = SubResource("BlackboardPlan_p0xvj")
+root_task = SubResource("BTSelector_qp3gm")

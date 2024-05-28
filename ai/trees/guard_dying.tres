@@ -1,0 +1,38 @@
+[gd_resource type="BehaviorTree" load_steps=9 format=3 uid="uid://dv81kdgxr71yn"]
+
+[sub_resource type="BlackboardPlan" id="BlackboardPlan_ah3wi"]
+var/state/name = &"state"
+var/state/type = 2
+var/state/value = 0
+var/state/hint = 0
+var/state/hint_string = ""
+
+[sub_resource type="BBNode" id="BBNode_qvjpi"]
+saved_value = NodePath("AnimationPlayer")
+resource_name = "AnimationPlayer"
+
+[sub_resource type="BTPlayAnimation" id="BTPlayAnimation_3pdsr"]
+animation_player = SubResource("BBNode_qvjpi")
+animation_name = &"dying"
+
+[sub_resource type="BBVariant" id="BBVariant_cmtyc"]
+type = 2
+saved_value = 9
+resource_name = "9"
+
+[sub_resource type="BTSetVar" id="BTSetVar_8bo7i"]
+variable = &"state"
+value = SubResource("BBVariant_cmtyc")
+
+[sub_resource type="BTSequence" id="BTSequence_qaf5h"]
+children = [SubResource("BTPlayAnimation_3pdsr"), SubResource("BTSetVar_8bo7i")]
+
+[sub_resource type="BTRunLimit" id="BTRunLimit_0hyjg"]
+children = [SubResource("BTSequence_qaf5h")]
+
+[sub_resource type="BTSelector" id="BTSelector_dmoao"]
+children = [SubResource("BTRunLimit_0hyjg")]
+
+[resource]
+blackboard_plan = SubResource("BlackboardPlan_ah3wi")
+root_task = SubResource("BTSelector_dmoao")
